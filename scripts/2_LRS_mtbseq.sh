@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-
+cd reads/LRS
 
 
 for i in *.fastq.gz; do basename=`ls $i | cut -d "." -f 1 | cut -d "_" -f 1`; echo $x; mv $i ${basename}_LRS-Q4-RP1-PH0_R1.fastq.gz; done
@@ -34,18 +34,18 @@ mv Bam/${sample}.nodup.bam.bai Bam/${sample}_nBP.bam.bai
 
 mkdir temp_Bam
 
-cat <(samtools view -H Bam/${sample}_nBP.bam) <(paste <(samtools view Bam/${sample}_nBP.bam | cut -f1-10 ) <(samtools view Bam/${sample}_nBP.bam | cut -f 11 | tr "$(cat ../REF/ascii_string)" "K")) | samtools view -b -o temp_Bam/${sample}_dump.bam -
+cat <(samtools view -H Bam/${sample}_nBP.bam) <(paste <(samtools view Bam/${sample}_nBP.bam | cut -f1-10 ) <(samtools view Bam/${sample}_nBP.bam | cut -f 11 | tr "$(cat ../../REF/ascii_string)" "K")) | samtools view -b -o temp_Bam/${sample}_dump.bam -
 picard AddOrReplaceReadGroups I=temp_Bam/${sample}_dump.bam O=temp_Bam/${sample}_final.bam RGPU=unit1 RGID=11 RGLB=LaneX RGSM=AnySampleName RGPL=illumina
 
 
 samtools index temp_Bam/${sample}_final.bam
-gatk3 -Xmx30g --analysis_type RealignerTargetCreator --reference_sequence ../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file temp_Bam/${sample}_final.bam --downsample_to_coverage 10000 --num_threads 8 --out GATK_Bam/${sample}.gatk.intervals 2>> GATK_Bam/${sample}.gatk.bamlog
+gatk3 -Xmx30g --analysis_type RealignerTargetCreator --reference_sequence ../../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file temp_Bam/${sample}_final.bam --downsample_to_coverage 10000 --num_threads 8 --out GATK_Bam/${sample}.gatk.intervals 2>> GATK_Bam/${sample}.gatk.bamlog
 
-gatk3 -Xmx30g --analysis_type IndelRealigner --reference_sequence ../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file temp_Bam/${sample}_final.bam --defaultBaseQualities 4 --targetIntervals GATK_Bam/${sample}.gatk.intervals --noOriginalAlignmentTags --out GATK_Bam/${sample}.realigned.bam 2>> GATK_Bam/${sample}.gatk.bamlog
+gatk3 -Xmx30g --analysis_type IndelRealigner --reference_sequence ../../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file temp_Bam/${sample}_final.bam --defaultBaseQualities 4 --targetIntervals GATK_Bam/${sample}.gatk.intervals --noOriginalAlignmentTags --out GATK_Bam/${sample}.realigned.bam 2>> GATK_Bam/${sample}.gatk.bamlog
 
-gatk3 -Xmx30g --analysis_type BaseRecalibrator --reference_sequence ../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file GATK_Bam/${sample}.realigned.bam --knownSites ../REF/MTB_Base_Calibration_List.vcf --maximum_cycle_value 400000  --num_cpu_threads_per_data_thread 8 --out GATK_Bam/${sample}.gatk.grp 2>>GATK_Bam/${sample}.gatk.bamlog
+gatk3 -Xmx30g --analysis_type BaseRecalibrator --reference_sequence ../../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file GATK_Bam/${sample}.realigned.bam --knownSites ../../REF/MTB_Base_Calibration_List.vcf --maximum_cycle_value 400000  --num_cpu_threads_per_data_thread 8 --out GATK_Bam/${sample}.gatk.grp 2>>GATK_Bam/${sample}.gatk.bamlog
 
-gatk3 -Xmx30g -T --analysis_type PrintReads --reference_sequence ../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file GATK_Bam/${sample}.realigned.bam --BQSR GATK_Bam/${sample}.gatk.grp --num_cpu_threads_per_data_thread 8 --out GATK_Bam/${sample}_nBP.gatk.bam 2>> GATK_Bam/${sample}.gatk.bamlog
+gatk3 -Xmx30g -T --analysis_type PrintReads --reference_sequence ../../REF/M._tuberculosis_H37Rv_2015-11-13.fasta --input_file GATK_Bam/${sample}.realigned.bam --BQSR GATK_Bam/${sample}.gatk.grp --num_cpu_threads_per_data_thread 8 --out GATK_Bam/${sample}_nBP.gatk.bam 2>> GATK_Bam/${sample}.gatk.bamlog
 
 
 samtools index GATK_Bam/${sample}_nBP.gatk.bam
@@ -60,17 +60,17 @@ rm -r temp_Bam
 
 
 
-MTBseq --step TBlist --mincovf 4 --mincovr 4 --minfreq 75  --minbqual 4 --categories ../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
-MTBseq --step TBvariants --mincovf 1 --mincovr 1 --lowfreq_vars --minfreq 5 --minphred20 1 --categories ../REF/MTB_Gene_Categories.txt
-MTBseq --step TBvariants  --mincovf 4 --mincovr 4 --minfreq 75  --minbqual 4 --categories ../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
+MTBseq --step TBlist --mincovf 4 --mincovr 4 --minfreq 75  --minbqual 4 --categories ../../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
+MTBseq --step TBvariants --mincovf 1 --mincovr 1 --lowfreq_vars --minfreq 5 --minphred20 1 --categories ../../REF/MTB_Gene_Categories.txt
+MTBseq --step TBvariants  --mincovf 4 --mincovr 4 --minfreq 75  --minbqual 4 --categories ../../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
 #MTBseq --step TBvariants --samples sample_list --threads 8
-MTBseq --step TBstats  --minbqual 4 --mincovf 4 --mincovr 4 --minfreq 75 --categories ../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
-MTBseq --step TBstrains  --minbqual 4 --mincovf 4 --mincovr 4 --minfreq 75 --categories ../REF/MTB_Gene_Categories.txt --minphred 0 --sample sample_list --threads 8
+MTBseq --step TBstats  --minbqual 4 --mincovf 4 --mincovr 4 --minfreq 75 --categories ../../REF/MTB_Gene_Categories.txt --minphred 0 --samples sample_list --threads 8
+MTBseq --step TBstrains  --minbqual 4 --mincovf 4 --mincovr 4 --minfreq 75 --categories ../../REF/MTB_Gene_Categories.txt --minphred 0 --sample sample_list --threads 8
 
 
 A=`date +"%d%b%y%a%H%M%S"`
 
-MTBseq --step TBjoin --continue --samples sample_list --project proj${A}  --minbqual 4 --categories ../REF/MTB_Gene_Categories.txt --minphred 0
+MTBseq --step TBjoin --continue --samples sample_list --project proj${A}  --minbqual 4 --categories ../../REF/MTB_Gene_Categories.txt --minphred 0
 
 
 
