@@ -55,5 +55,7 @@ cov_8 %>%
         text=element_text(size=12))
 
 
+dir.create('FIGS')
 
 
+ggsave('FIGS/Coverage_barplot.png',dpi=300)
