@@ -95,7 +95,7 @@ def codon(s):
     return(temp[0])
 
 
-myfile = open("head", "r")
+myfile = open("../../../REF/head", "r")
 head = myfile.read()
 head_list=head.split('\t')
 #remove \n character
@@ -106,7 +106,7 @@ head_list.append('Gene1')
 head_list
 
 
-df=pd.read_csv("pharma_gene.tab",sep='\t',header=None,names=head_list)
+df=pd.read_csv("../../../REF/pharma_gene.tab",sep='\t',header=None,names=head_list)
 
 
 #clean substitution and add a new column SubstClean
@@ -117,7 +117,7 @@ df['NSYN'] = df.SubstClean2.apply(nsyn3)
 df.rename({'#Pos': 'Genome position'}, axis=1,inplace=True)
 df['genome_index']=df['Genome position']
 
-whoG=pd.read_csv('WHO-UCN-GTB-PCI-2021.7-eng_genome_ind.csv',sep='\t')
+whoG=pd.read_csv('../../../REF/WHO-UCN-GTB-PCI-2021.7-eng_genome_ind.csv',sep='\t')
 
 whoG.genome_index=whoG.genome_index.str.split(',')
 whoG = whoG.explode('genome_index').reset_index(drop=True)
@@ -182,7 +182,7 @@ T5b = T5b.sort_values(by=['new'], ascending=True).drop('new', axis=1)
 
 T5b.to_excel('qcr26_full.xls',index=False)
 
-myfile = open("head", "r")
+myfile = open("../../../REF/head", "r")
 head1 = myfile.read()
 head_list1=head1.split('\t')
 #remove \n character
