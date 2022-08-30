@@ -17,27 +17,40 @@
 
 ## Generate Hybrid reads
 
-From the main folder launch the script 1_Hybrid_generate-reads.sh
+From the main directory launch the script 1_Hybrid_generate-reads.sh
 
 ## Running MTBseq
 
-From the main folder launch the three scripts:
+From the main directory launch the three scripts:
 2_Hyb_mtbseq.sh
 2_LRS_mtbseq.sh
 2_SRS_mtbseq.sh
 
 ## Genome Coverage
 
-From the main folder launch the script: 3a_coverage.sh
+From the main directory launch the script: 3a_coverage.sh
 
 Open R and and use the code in 3b_Coverage.R to compare the breadth coverage at 8x with the different approaches
 
 ## Variant calling and Comparative Analysis
 
 The variants were already called with the MTBseq step. They can be found in the relative folder (e.g reads/SRS/Called).
-From the main folder launch the script: 4_tree.sh
+From the main directory launch the script: 4_tree.sh
 This will produce a folder Trees containing the transmission trees of the samples according the different approaches.
 
 For visualization use the site: https://achtman-lab.github.io/GrapeTree/MSTree_holder.html
 
+## Drug resistance
 
+For each of the approaches enter the folder reads/*/Called.
+From there launch the script 5_WHO-resistance.py
+
+The results will be in the file qcr26_all_full.csv
+
+## De Novo Assembly
+
+From the main irectory launch the script 6a_Assembly.sh
+
+The assemblies will be in the folder Assembly
+
+For comparison and visualization use the R script 6b_assembly.R
