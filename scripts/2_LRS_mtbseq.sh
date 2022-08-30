@@ -6,7 +6,7 @@ cd reads/LRS
 for i in *.fastq.gz; do basename=`ls $i | cut -d "." -f 1 | cut -d "_" -f 1`; echo $x; mv $i ${basename}_LRS-Q4-RP1-PH0_R1.fastq.gz; done
 for i in *.fastq.gz; do x=` ls $i | cut -d "_" -f1,2` ; echo $x >> samplelist; done
 cat samplelist | tr "_" "\t" > sample_list
-
+cut -f1 sample_list > ../../sample_list
 mkdir Bam
 mkdir GATK_Bam
 mkdir Mpileup
