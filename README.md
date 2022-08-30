@@ -28,9 +28,9 @@ From the main folder launch the three scripts:
 
 ## Genome Coverage
 
-From the main folder launch the script: 3_coverage.sh
+From the main folder launch the script: 3a_coverage.sh
 
-Open R and and use the code in 3.5_Coverage.R to compare the breadth coverage at 8x with the different approaches
+Open R and and use the code in 3b_Coverage.R to compare the breadth coverage at 8x with the different approaches
 
 ## Variant calling and Comparative Analysis
 
