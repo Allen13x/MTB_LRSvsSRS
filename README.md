@@ -17,8 +17,17 @@
 
 ## Generate Hybrid reads
 
-
+From the main folder launch the script 1_Hybrid_generate-reads.sh
 
 ## Running MTBseq
 
+From the main folder launch the three scripts:
+2_Hyb_mtbseq.sh
+2_LRS_mtbseq.sh
+2_SRS_mtbseq.sh
 
+## Genomne Coverage
+
+From the main folder launch the script: 3_coverage.sh
+
+Open R and and use the code in 3.5_Coverage.R to compare the breadth coverage at 8x with the different approaches
